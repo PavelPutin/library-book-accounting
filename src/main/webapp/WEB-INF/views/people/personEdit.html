@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit</title>
+</head>
+<body>
+
+    <div th:if="${personNotFound}">
+        <p th:text="${personNotFound}"/>
+        <br>
+        <hr>
+    </div>
+
+    <div th:if="${person}">
+        <form th:method="PATCH" th:action="@{/people/{id}(id=${person.getId()})}" th:object="${person}">
+            <label for="name">New name: </label>
+            <input th:field="*{name}" id="name" type="text" th:value="*{name}">
+            <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+            <br>
+
+            <label for="age">New age: </label>
+            <input th:field="*{age}" id="age" type="text" th:value="*{age}">
+            <span th:if="${#fields.hasErrors('age')}" th:errors="*{age}"></span>
+            <br>
+
+            <label for="email">New email: </label>
+            <input th:field="*{email}" id="email" type="text" th:value="*{email}">
+            <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+            <br>
+
+            <input type="submit" value="Edit">
+        </form>
+
+        <br>
+        <hr>
+
+        <a th:href="@{/people/{id}(id=${person.getId()})}">Back</a>
+    </div>
+</body>
+</html>
