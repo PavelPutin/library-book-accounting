@@ -8,9 +8,8 @@
     <p th:if="${person}">
         <p>
             <span th:text="${person.getId()}"/>
-            <span th:text="${person.getName()}"/>
-            <span th:text="${person.getAge()}"/>
-            <span th:text="${person.getEmail()}"/>
+            <span th:text="${person.getFullName()}"/>
+            <span th:text="${person.getBirthdayYear()}"/>
         </p>
 
         <p>
