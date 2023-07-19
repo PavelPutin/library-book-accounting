@@ -72,7 +72,7 @@ public class PeopleController {
         if (bindingResult.hasErrors()) {
             return "people/personEdit";
         }
-        personDAO.update(id, updatedPerson);
+        personDAO.edit(id, updatedPerson);
         return "redirect:/people";
     }
 

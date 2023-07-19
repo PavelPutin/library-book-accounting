@@ -11,7 +11,6 @@ import java.util.Optional;
 
 @Component
 public class PersonDAO {
-    private static int PERSON_COUNT;
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
@@ -28,19 +27,13 @@ public class PersonDAO {
                 .stream().findAny();
     }
 
-    public Person save(Person person) {
-        person.setId(PERSON_COUNT++);
-
-        jdbcTemplate.update("INSERT INTO person VALUES(?, ?, ?, ?)",
-                person.getId(), person.getName(),
-                person.getAge(), person.getEmail());
-
-        return person;
+    public void save(Person person) {
+        jdbcTemplate.update("INSERT INTO person(full_name, birthday_year) VALUES(?, ?)",
+                person.getFullName(), person.getBirthdayYear());
     }
 
-    public Optional<Person> update(int id, Person updatedPerson) {
-        jdbcTemplate.update("UPDATE person SET name=?, age=?, email=? WHERE id=?", updatedPerson.getName(),
-                updatedPerson.getAge(), updatedPerson.getEmail(), updatedPerson.getId());
+    public Optional<Person> edit(int id, Person updatedPerson) {
+        jdbcTemplate.update("UPDATE person SET full_name=?, birthday_year=? WHERE id=?", updatedPerson.getFullName(), updatedPerson.getBirthdayYear(), updatedPerson.getId());
         return getPersonById(id);
     }
 

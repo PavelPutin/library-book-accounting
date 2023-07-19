@@ -1,28 +1,19 @@
 package edu.vsu.putin_p_a.models;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
 public class Person {
     private int id;
 
-    @Size(min = 2, max = 50, message = "Name length must be between 2 and 50 include.")
-    private String name;
+    @Size(min = 2, max = 512, message = "Full name length must be between 2 and 512 include.")
+    private String fullName;
 
-    @Min(value = 0, message = "Age must be greater or equal to 0.")
-    private int age;
+    private int birthdayYear;
 
-    @NotEmpty(message = "Email should not be empty.")
-    @Email(message = "Email must be valid.")
-    private String email;
-
-    public Person(int id, String name, int age, String email) {
+    public Person(int id, String fullName, int birthdayYear) {
         this.id = id;
-        this.name = name;
-        this.age = age;
-        this.email = email;
+        this.fullName = fullName;
+        this.birthdayYear = birthdayYear;
     }
 
     public Person() {
@@ -36,27 +27,19 @@ public class Person {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
-    public int getAge() {
-        return age;
+    public int getBirthdayYear() {
+        return birthdayYear;
     }
 
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
+    public void setBirthdayYear(int birthdayYear) {
+        this.birthdayYear = birthdayYear;
     }
 }
