@@ -14,19 +14,14 @@
 
     <div th:if="${person}">
         <form th:method="PATCH" th:action="@{/people/{id}(id=${person.getId()})}" th:object="${person}">
-            <label for="name">New name: </label>
-            <input th:field="*{name}" id="name" type="text" th:value="*{name}">
-            <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+            <label for="fullName">New full name: </label>
+            <input th:field="*{fullName}" id="fullName" type="text" th:value="*{fullName}">
+            <span th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}"></span>
             <br>
 
-            <label for="age">New age: </label>
-            <input th:field="*{age}" id="age" type="text" th:value="*{age}">
-            <span th:if="${#fields.hasErrors('age')}" th:errors="*{age}"></span>
-            <br>
-
-            <label for="email">New email: </label>
-            <input th:field="*{email}" id="email" type="text" th:value="*{email}">
-            <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+            <label for="birthdayYear">New birthday year: </label>
+            <input th:field="*{birthdayYear}" id="birthdayYear" type="text" th:value="*{birthdayYear}">
+            <span th:if="${#fields.hasErrors('birthdayYear')}" th:errors="*{birthdayYear}"></span>
             <br>
 
             <input type="submit" value="Edit">

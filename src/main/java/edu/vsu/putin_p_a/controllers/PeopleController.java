@@ -75,6 +75,8 @@ public class PeopleController {
     public String editPerson(@PathVariable("id") int id,
                              @ModelAttribute("person") @Valid Person updatedPerson,
                              BindingResult bindingResult) {
+        personValidator.validate(updatedPerson, bindingResult);
+
         if (bindingResult.hasErrors()) {
             return "people/personEdit";
         }
