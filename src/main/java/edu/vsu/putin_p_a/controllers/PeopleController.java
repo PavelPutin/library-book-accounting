@@ -2,6 +2,8 @@ package edu.vsu.putin_p_a.controllers;
 
 import edu.vsu.putin_p_a.dao.PersonDAO;
 import edu.vsu.putin_p_a.models.Person;
+import edu.vsu.putin_p_a.util.BookValidator;
+import edu.vsu.putin_p_a.util.PersonValidator;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,11 +17,13 @@ import java.util.Optional;
 @Controller
 @RequestMapping("/people")
 public class PeopleController {
-    private PersonDAO personDAO;
+    private final PersonValidator personValidator;
+    private final PersonDAO personDAO;
 
     @Autowired
-    public PeopleController(PersonDAO personDAO) {
+    public PeopleController(PersonDAO personDAO, PersonValidator personValidator) {
         this.personDAO = personDAO;
+        this.personValidator = personValidator;
     }
 
     @GetMapping
@@ -47,6 +51,8 @@ public class PeopleController {
 
     @PostMapping
     public String createPerson(@ModelAttribute("person") @Valid Person person, BindingResult bindingResult) {
+        personValidator.validate(person, bindingResult);
+
         if (bindingResult.hasErrors()) {
             return "people/personCreationForm";
         }
