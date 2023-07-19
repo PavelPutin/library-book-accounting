@@ -37,6 +37,7 @@ public class SpringConfig {
         springResourceTemplateResolver.setApplicationContext(applicationContext);
         springResourceTemplateResolver.setPrefix("/WEB-INF/views/");
         springResourceTemplateResolver.setSuffix(".html");
+        springResourceTemplateResolver.setCharacterEncoding("UTF-8");
         return springResourceTemplateResolver;
     }
 
@@ -52,6 +53,7 @@ public class SpringConfig {
     public ThymeleafViewResolver thymeleafViewResolver() {
         ThymeleafViewResolver thymeleafViewResolver = new ThymeleafViewResolver();
         thymeleafViewResolver.setTemplateEngine(springTemplateEngine());
+        thymeleafViewResolver.setCharacterEncoding("UTF-8");
         thymeleafViewResolver.setOrder(1);
         thymeleafViewResolver.setViewNames(new String[] {"*"});
         return thymeleafViewResolver;
