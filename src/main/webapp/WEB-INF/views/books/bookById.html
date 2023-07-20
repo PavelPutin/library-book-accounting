@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${book.getName()}"/>
+    <title>Book page</title>
+</head>
+<body>
+    <h1 th:text="${book.getName()}"/>
+    <p>
+        <span th:text="${book.getAuthor()}"/>, <span th:text="${book.getPublishYear()}"/>
+    </p>
+
+    <hr>
+
+    <hr>
+
+    <a href="/books">К списку книг</a>
+</body>
+</html>
