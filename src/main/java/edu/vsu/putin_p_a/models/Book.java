@@ -2,15 +2,16 @@ package edu.vsu.putin_p_a.models;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 
 public class Book {
     private int id;
 
-    @Max(value = 512, message = "Name must be less than 512 characters.")
+    @Size(max = 512, message = "Name must be less than 512 characters.")
     @NotEmpty(message = "Name can't be empty.")
     private String name;
 
-    @Max(value = 512, message = "Author name must be less than 512 characters.")
+    @Size(max = 512, message = "Author name must be less than 512 characters.")
     @NotEmpty(message = "Author name can't be empty.")
     private String author;
     private Integer publishYear;
