@@ -8,7 +8,7 @@
 <body>
     <h1 th:text="${book.getName()}"/>
     <p>
-        <span th:text="${book.getAuthor()}"/>, <span th:text="${book.getPublishYear()}"/>
+        <span th:text="${book.getAuthor()}"/><span th:if="${book.getPublishYear()}">,</span> <span th:text="${book.getPublishYear()}"/>
     </p>
 
     <hr>
