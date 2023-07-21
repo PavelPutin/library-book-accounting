@@ -18,7 +18,7 @@ public class BookValidator implements Validator {
     public void validate(Object target, Errors errors) {
         Book book = (Book) target;
 
-        if (book.getPublishYear() > Year.now().getValue()) {
+        if (book.getPublishYear() != null && book.getPublishYear() > Year.now().getValue()) {
             errors.rejectValue("publishYear", "", "Publish year must be earlier than the current one");
         }
     }

@@ -58,7 +58,7 @@ public class BooksController {
     public String createBook(@ModelAttribute("book") @Valid Book book, BindingResult bindingResult) {
         bookValidator.validate(book, bindingResult);
         if (bindingResult.hasErrors()) {
-            return "redirect:/books/new";
+            return "books/bookCreationForm";
         }
         bookDAO.save(book);
         return "redirect:/books";
