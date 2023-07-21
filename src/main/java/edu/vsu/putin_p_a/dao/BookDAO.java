@@ -30,4 +30,12 @@ public class BookDAO {
         jdbcTemplate.update("INSERT INTO book(name, author, publish_year) VALUES (?, ?, ?);",
                 book.getName(), book.getAuthor(), book.getPublishYear());
     }
+
+    public void edit(int id, Book editingBook) {
+        jdbcTemplate.update("UPDATE book SET name=?, author=?, publish_year=? WHERE id=?",
+                editingBook.getName(),
+                editingBook.getAuthor(),
+                editingBook.getPublishYear(),
+                id);
+    }
 }

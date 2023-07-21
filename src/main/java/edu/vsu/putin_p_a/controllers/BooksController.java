@@ -44,7 +44,7 @@ public class BooksController {
 
     @GetMapping("/{id}/notFound")
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public String showNotFound(@PathVariable int id, Model model) {
+    public String showNotFound(@PathVariable("id") int id, Model model) {
         model.addAttribute("id", id);
         return "books/notFound";
     }
@@ -62,5 +62,27 @@ public class BooksController {
         }
         bookDAO.save(book);
         return "redirect:/books";
+    }
+
+    @GetMapping("/{id}/edit")
+    public String showEditForm(@PathVariable("id") int id, Model model) {
+        Optional<Book> optEditingBook = bookDAO.getBookById(id);
+        if (optEditingBook.isPresent()) {
+            model.addAttribute("editingBook", optEditingBook.get());
+            return "books/bookEdit";
+        }
+        return "redirect:/books/{id}/notFound";
+    }
+
+    @PatchMapping("/{id}")
+    public String editBook(@PathVariable("id") int id,
+                           @ModelAttribute("editingBook") @Valid Book editingBook,
+                           BindingResult bindingResult) {
+        bookValidator.validate(editingBook, bindingResult);
+        if (bindingResult.hasErrors()) {
+            return "books/bookEdit";
+        }
+        bookDAO.edit(id, editingBook);
+        return "redirect:/books/{id}";
     }
 }
