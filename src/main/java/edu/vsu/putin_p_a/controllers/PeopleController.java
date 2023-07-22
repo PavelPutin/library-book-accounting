@@ -1,6 +1,8 @@
 package edu.vsu.putin_p_a.controllers;
 
+import edu.vsu.putin_p_a.dao.BookDAO;
 import edu.vsu.putin_p_a.dao.PersonDAO;
+import edu.vsu.putin_p_a.models.Book;
 import edu.vsu.putin_p_a.models.Person;
 import edu.vsu.putin_p_a.util.BookValidator;
 import edu.vsu.putin_p_a.util.PersonValidator;
@@ -20,11 +22,13 @@ import java.util.Optional;
 public class PeopleController {
     private final PersonValidator personValidator;
     private final PersonDAO personDAO;
+    private final BookDAO bookDAO;
 
     @Autowired
-    public PeopleController(PersonDAO personDAO, PersonValidator personValidator) {
+    public PeopleController(PersonDAO personDAO, PersonValidator personValidator, BookDAO bookDAO) {
         this.personDAO = personDAO;
         this.personValidator = personValidator;
+        this.bookDAO = bookDAO;
     }
 
     @GetMapping
@@ -40,6 +44,10 @@ public class PeopleController {
 
         if (optPerson.isPresent()) {
             model.addAttribute("person", optPerson.get());
+
+            List<Book> books = bookDAO.getBooksByOwnerId(id);
+            model.addAttribute("books", books);
+
             return "people/personById";
         }
 
