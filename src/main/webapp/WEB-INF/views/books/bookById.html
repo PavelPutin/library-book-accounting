@@ -18,6 +18,18 @@
         </form>
     </div>
 
+    <form th:if="${people}" th:method="PATCH" th:action="@{/books/{id}/setOwner(id=${book.getId()})}">
+        <p>
+            <label for="person">Эта книга свободна. Кому назначить её?</label>
+        </p>
+
+        <select th:object="${book}" id="person" th:field="*{ownerId}">
+            <option th:each="person : ${people}" th:value="${person.getId()}" th:text="${person.getFullName()}"/>
+        </select>
+
+        <button type="submit">Назначить книгу</button>
+    </form>
+
     <hr>
 
     <div>

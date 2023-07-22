@@ -46,6 +46,9 @@ public class BooksController {
             if (book.getOwnerId() != null) {
                 Optional<Person> owner = personDAO.getPersonById(book.getOwnerId());
                 owner.ifPresent(person -> model.addAttribute("owner", person));
+            } else {
+                List<Person> people = personDAO.getPeople();
+                model.addAttribute("people", people);
             }
 
             return "books/bookById";
@@ -56,6 +59,12 @@ public class BooksController {
     @PatchMapping("/{id}/free")
     public String freeBook(@PathVariable("id") int id) {
         bookDAO.free(id);
+        return "redirect:/books/{id}";
+    }
+
+    @PatchMapping("/{id}/setOwner")
+    public String setOwner(@PathVariable("id") int id, @ModelAttribute @Valid Book book, BindingResult bindingResult) {
+        bookDAO.setOwner(id, book.getOwnerId());
         return "redirect:/books/{id}";
     }
 

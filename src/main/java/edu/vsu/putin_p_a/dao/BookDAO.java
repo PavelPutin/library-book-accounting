@@ -50,4 +50,8 @@ public class BookDAO {
     public void free(int id) {
         jdbcTemplate.update("UPDATE book SET owner_id=NULL WHERE id=?", id);
     }
+
+    public void setOwner(int id, int ownerId) {
+        jdbcTemplate.update("UPDATE book SET owner_id=? WHERE id=?", ownerId, id);
+    }
 }
