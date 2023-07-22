@@ -14,10 +14,12 @@
     <hr>
 
     <div>
-        <button>
-            <a th:href="@{/books/{id}/edit(id=${book.getId()})}">Редактировать</a>
-        </button>
+        <a th:href="@{/books/{id}/edit(id=${book.getId()})}">Редактировать</a>
     </div>
+
+    <form th:method="DELETE" th:action="@{/books/{id}(id=${book.getId()})}">
+        <button type="submit">Удалить</button>
+    </form>
 
     <hr>
 

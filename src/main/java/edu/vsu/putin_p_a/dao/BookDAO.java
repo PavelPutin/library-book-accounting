@@ -38,4 +38,8 @@ public class BookDAO {
                 editingBook.getPublishYear(),
                 id);
     }
+
+    public void remove(int id) {
+        jdbcTemplate.update("DELETE FROM book WHERE id=?", id);
+    }
 }
