@@ -6,6 +6,7 @@ import edu.vsu.putin_p_a.util.BookValidator;
 import edu.vsu.putin_p_a.util.PersonValidator;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -36,12 +37,20 @@ public class PeopleController {
     @GetMapping("/{id}")
     public String showPersonById(@PathVariable("id") int id, Model model) {
         Optional<Person> optPerson = personDAO.getPersonById(id);
+
         if (optPerson.isPresent()) {
             model.addAttribute("person", optPerson.get());
-        } else {
-            model.addAttribute("notFound", "Person with id " + id + " not found.");
+            return "people/personById";
         }
-        return "people/personById";
+
+        return "redirect:/people/{id}/notFound";
+    }
+
+    @GetMapping("/{id}/notFound")
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public String showNotFound(@PathVariable("id") int id, Model model) {
+        model.addAttribute("id", id);
+        return "people/notFound";
     }
 
     @GetMapping("/new")
