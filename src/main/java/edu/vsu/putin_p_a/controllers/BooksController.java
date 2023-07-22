@@ -1,7 +1,9 @@
 package edu.vsu.putin_p_a.controllers;
 
 import edu.vsu.putin_p_a.dao.BookDAO;
+import edu.vsu.putin_p_a.dao.PersonDAO;
 import edu.vsu.putin_p_a.models.Book;
+import edu.vsu.putin_p_a.models.Person;
 import edu.vsu.putin_p_a.util.BookValidator;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -19,10 +21,12 @@ import java.util.Optional;
 public class BooksController {
     private final BookDAO bookDAO;
     private final BookValidator bookValidator;
+    private final PersonDAO personDAO;
 
-    public BooksController(BookDAO bookDAO, BookValidator bookValidator) {
+    public BooksController(BookDAO bookDAO, BookValidator bookValidator, PersonDAO personDAO) {
         this.bookDAO = bookDAO;
         this.bookValidator = bookValidator;
+        this.personDAO = personDAO;
     }
 
     @GetMapping
@@ -36,10 +40,23 @@ public class BooksController {
     public String showBookById(@PathVariable int id, Model model) {
         Optional<Book> optBook = bookDAO.getBookById(id);
         if (optBook.isPresent()) {
-            model.addAttribute("book", optBook.get());
+            Book book = optBook.get();
+            model.addAttribute("book", book);
+
+            if (book.getOwnerId() != null) {
+                Optional<Person> owner = personDAO.getPersonById(book.getOwnerId());
+                owner.ifPresent(person -> model.addAttribute("owner", person));
+            }
+
             return "books/bookById";
         }
         return "redirect:/books/{id}/notFound";
+    }
+
+    @PatchMapping("/{id}/free")
+    public String freeBook(@PathVariable("id") int id) {
+        bookDAO.free(id);
+        return "redirect:/books/{id}";
     }
 
     @GetMapping("/{id}/notFound")

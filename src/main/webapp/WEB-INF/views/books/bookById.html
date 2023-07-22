@@ -11,6 +11,13 @@
         <span th:text="${book.getAuthor()}"/><span th:if="${book.getPublishYear()}">,</span> <span th:text="${book.getPublishYear()}"/>
     </p>
 
+    <div th:if="${owner}">
+        <p>Книга сейчас у: <a th:href="@{/people/{id}(id=${owner.getId()})}" th:text="${owner.getFullName()}"/></p>
+        <form th:action="@{/books/{id}/free(id=${book.getId()})}" th:method="PATCH">
+            <button type="submit">Освободить книгу</button>
+        </form>
+    </div>
+
     <hr>
 
     <div>
