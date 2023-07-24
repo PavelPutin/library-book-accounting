@@ -5,6 +5,11 @@
     <title>Books</title>
 </head>
 <body>
+
+    <h1>Список книг</h1>
+    <p>
+        <a href="/people">К списку людей</a>
+    </p>
   <ul>
     <li th:each="book : ${books}">
         <a th:href="@{/books/{id}(id=${book.getId()})}">

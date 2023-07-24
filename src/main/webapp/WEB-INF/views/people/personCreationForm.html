@@ -2,24 +2,24 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Add person</title>
+    <title>Добавить человека</title>
 </head>
 <body>
-    <h1>Add person</h1>
+    <h1>Добавить человека</h1>
     <form action="/people" method="post" th:object="${person}">
-        <label for="fullName">Enter full name: </label>
+        <label for="fullName">Полное имя: </label>
         <input th:field="*{fullName}" id="fullName" type="text">
         <span th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}"></span>
         <br>
 
-        <label for="age">Enter birthday year: </label>
+        <label for="age">Год рождения: </label>
         <input th:field="*{birthdayYear}" id="age" type="text">
         <span th:if="${#fields.hasErrors('birthdayYear')}" th:errors="*{birthdayYear}"></span>
         <br>
 
-        <input type="submit" value="Add person">
+        <input type="submit" value="Добавить человека">
     </form>
 
-    <a th:href="@{/people}">back</a>
+    <a th:href="@{/people}" title="Вернуться к списку людей">Отмена</a>
 </body>
 </html>
