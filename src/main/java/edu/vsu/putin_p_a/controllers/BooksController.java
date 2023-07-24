@@ -42,13 +42,10 @@ public class BooksController {
             Book book = optBook.get();
             model.addAttribute("book", book);
 
-            if (book.getOwnerId() != null) {
-                Optional<Person> owner = personDAO.getPersonById(book.getOwnerId());
-                owner.ifPresent(person -> model.addAttribute("owner", person));
-            } else {
-                List<Person> people = personDAO.getPeople();
-                model.addAttribute("people", people);
-            }
+            bookDAO.getBookOwner(id).ifPresentOrElse(
+                    person -> model.addAttribute("owner", person),
+                    () -> model.addAttribute("people", personDAO.getPeople())
+            );
 
             return "books/bookById";
         }

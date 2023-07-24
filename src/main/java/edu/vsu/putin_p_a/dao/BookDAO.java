@@ -1,6 +1,7 @@
 package edu.vsu.putin_p_a.dao;
 
 import edu.vsu.putin_p_a.models.Book;
+import edu.vsu.putin_p_a.models.Person;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
@@ -24,6 +25,11 @@ public class BookDAO {
     public Optional<Book> getBookById(int id) {
         return jdbcTemplate.query("SELECT * FROM book WHERE id=?", new BeanPropertyRowMapper<>(Book.class), id)
                 .stream().findAny();
+    }
+
+    public Optional<Person> getBookOwner(int id) {
+        return jdbcTemplate.query("SELECT person.* FROM book JOIN person ON book.owner_id=person.id WHERE book.id=?",
+                new BeanPropertyRowMapper<>(Person.class), id).stream().findAny();
     }
 
     public void save(Book book) {
