@@ -81,10 +81,9 @@ public class PeopleController {
         Optional<Person> optPerson = personDAO.getPersonById(id);
         if (optPerson.isPresent()) {
             model.addAttribute("person", optPerson.get());
-        } else {
-            model.addAttribute("personNotFound", "Person with id " + id + "not found");
+            return "people/personEdit";
         }
-        return "people/personEdit";
+        return "redirect:/people/{id}/notFound";
     }
 
     @PatchMapping("/{id}")

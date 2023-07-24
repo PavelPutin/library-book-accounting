@@ -5,14 +5,7 @@
     <title>Редактирование</title>
 </head>
 <body>
-
-    <div th:if="${personNotFound}">
-        <p th:text="${personNotFound}"/>
-        <br>
-        <hr>
-    </div>
-
-    <div th:if="${person}">
+    <div>
         <form th:method="PATCH" th:action="@{/people/{id}(id=${person.getId()})}" th:object="${person}">
             <label for="fullName">Полное имя: </label>
             <input th:field="*{fullName}" id="fullName" type="text" th:value="*{fullName}">
