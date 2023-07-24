@@ -4,7 +4,6 @@ import edu.vsu.putin_p_a.dao.BookDAO;
 import edu.vsu.putin_p_a.dao.PersonDAO;
 import edu.vsu.putin_p_a.models.Book;
 import edu.vsu.putin_p_a.models.Person;
-import edu.vsu.putin_p_a.util.BookValidator;
 import edu.vsu.putin_p_a.util.PersonValidator;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
