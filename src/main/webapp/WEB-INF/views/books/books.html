@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Books</title>
+</head>
+<body>
+
+    <h1>Список книг</h1>
+    <p>
+        <a href="/people">К списку людей</a>
+    </p>
+  <ul>
+    <li th:each="book : ${books}">
+        <a th:href="@{/books/{id}(id=${book.getId()})}">
+            <span th:text="${book.getName()}"/>, <span th:text="${book.getAuthor()}"/>, <span th:text="${book.getPublishYear()}"/>
+        </a>
+    </li>
+  </ul>
+
+  <br>
+  <hr>
+
+  <a th:href="@{/books/new}">Добавить книгу</a>
+</body>
+</html>

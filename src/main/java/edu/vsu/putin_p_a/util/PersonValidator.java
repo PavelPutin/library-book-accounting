@@ -28,7 +28,8 @@ public class PersonValidator implements Validator {
     public void validate(Object target, Errors errors) {
         Person person = (Person) target;
 
-        if (personDao.getPersonByFullName(person.getFullName()).isPresent()) {
+        if (personDao.getPersonById(person.getId()).isEmpty() &&
+                personDao.getPersonByFullName(person.getFullName()).isPresent()) {
             errors.rejectValue("fullName", "", "Full name isn't unique");
         }
 

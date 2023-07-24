@@ -1,27 +1,27 @@
 package edu.vsu.putin_p_a.models;
 
-import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 
 public class Book {
     private int id;
 
-    @Max(value = 512, message = "Name must be less than 512 characters.")
+    @Size(max = 512, message = "Name must be less than 512 characters.")
     @NotEmpty(message = "Name can't be empty.")
     private String name;
 
-    @Max(value = 512, message = "Author name must be less than 512 characters.")
+    @Size(max = 512, message = "Author name must be less than 512 characters.")
     @NotEmpty(message = "Author name can't be empty.")
     private String author;
     private Integer publishYear;
-    private Integer owner_id;
+    private Integer ownerId;
 
-    public Book(int id, String name, String author, Integer publishYear, Integer owner_id) {
+    public Book(int id, String name, String author, Integer publishYear, Integer ownerId) {
         this.id = id;
         this.name = name;
         this.author = author;
         this.publishYear = publishYear;
-        this.owner_id = owner_id;
+        this.ownerId = ownerId;
     }
 
     public Book() {
@@ -59,11 +59,11 @@ public class Book {
         this.publishYear = publishYear;
     }
 
-    public Integer getOwner_id() {
-        return owner_id;
+    public Integer getOwnerId() {
+        return ownerId;
     }
 
-    public void setOwner_id(Integer owner_id) {
-        this.owner_id = owner_id;
+    public void setOwnerId(Integer ownerId) {
+        this.ownerId = ownerId;
     }
 }
