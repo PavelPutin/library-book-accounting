@@ -2,3 +2,6 @@ datasource.driver=
 datasource.url=
 datasource.name=
 datasource.password=
+
+hibernate.dialect=
+hibernate.show_sql=
