@@ -1,27 +1,40 @@
 package edu.vsu.putin_p_a.models;
 
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
+@Entity
+@Table(name = "book")
 public class Book {
+
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @Column(name = "name")
     @Size(max = 512, message = "Name must be less than 512 characters.")
     @NotEmpty(message = "Name can't be empty.")
     private String name;
 
+    @Column(name = "author")
     @Size(max = 512, message = "Author name must be less than 512 characters.")
     @NotEmpty(message = "Author name can't be empty.")
     private String author;
-    private Integer publishYear;
-    private Integer ownerId;
 
-    public Book(int id, String name, String author, Integer publishYear, Integer ownerId) {
+    @Column(name = "publish_year")
+    private Integer publishYear;
+
+    @ManyToOne
+    @JoinColumn(name = "owner_id", referencedColumnName = "id")
+    private Person owner;
+
+    public Book(int id, String name, String author, Integer publishYear) {
         this.id = id;
         this.name = name;
         this.author = author;
         this.publishYear = publishYear;
-        this.ownerId = ownerId;
     }
 
     public Book() {
@@ -59,11 +72,11 @@ public class Book {
         this.publishYear = publishYear;
     }
 
-    public Integer getOwnerId() {
-        return ownerId;
+    public Person getOwner() {
+        return owner;
     }
 
-    public void setOwnerId(Integer ownerId) {
-        this.ownerId = ownerId;
+    public void setOwner(Person owner) {
+        this.owner = owner;
     }
 }
