@@ -2,6 +2,7 @@ package edu.vsu.putin_p_a.util;
 
 import edu.vsu.putin_p_a.dao.PersonDAO;
 import edu.vsu.putin_p_a.models.Person;
+import edu.vsu.putin_p_a.repository.PeopleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -11,12 +12,11 @@ import java.time.Year;
 
 @Component
 public class PersonValidator implements Validator {
-
-    private final PersonDAO personDao;
+    private final PeopleRepository peopleRepository;
 
     @Autowired
-    public PersonValidator(PersonDAO personDao) {
-        this.personDao = personDao;
+    public PersonValidator(PersonDAO personDao, PeopleRepository peopleRepository) {
+        this.peopleRepository = peopleRepository;
     }
 
     @Override
@@ -28,8 +28,7 @@ public class PersonValidator implements Validator {
     public void validate(Object target, Errors errors) {
         Person person = (Person) target;
 
-        if (personDao.getPersonById(person.getId()).isEmpty() &&
-                personDao.getPersonByFullName(person.getFullName()).isPresent()) {
+        if (!peopleRepository.getPeopleByIdIsNotAndFullName(person.getId(), person.getFullName()).isEmpty()) {
             errors.rejectValue("fullName", "", "Full name isn't unique");
         }
 
