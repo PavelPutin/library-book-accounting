@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
+import java.util.Optional;
+
 @Entity
 @Table(name = "book")
 public class Book {
@@ -26,6 +28,7 @@ public class Book {
     @Column(name = "publish_year")
     private Integer publishYear;
 
+    // TODO: set fetch type LAZY
     @ManyToOne
     @JoinColumn(name = "owner_id", referencedColumnName = "id")
     private Person owner;
@@ -72,8 +75,8 @@ public class Book {
         this.publishYear = publishYear;
     }
 
-    public Person getOwner() {
-        return owner;
+    public Optional<Person> getOwner() {
+        return Optional.ofNullable(owner);
     }
 
     public void setOwner(Person owner) {

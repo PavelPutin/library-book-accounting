@@ -1,8 +1,8 @@
 package edu.vsu.putin_p_a.dao;
 
 import edu.vsu.putin_p_a.models.Book;
-import org.springframework.beans.factory.annotation.Autowired;
 import edu.vsu.putin_p_a.models.Person;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;

@@ -22,7 +22,7 @@
             <label for="person">Эта книга свободна. Кому назначить её?</label>
         </p>
 
-        <select th:object="${book}" id="person" th:field="*{ownerId}">
+        <select id="person" name="ownerId">
             <option th:each="person : ${people}" th:value="${person.getId()}" th:text="${person.getFullName()}"/>
         </select>
 

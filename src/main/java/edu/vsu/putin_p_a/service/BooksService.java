@@ -1,10 +1,9 @@
 package edu.vsu.putin_p_a.service;
 
 import edu.vsu.putin_p_a.models.Book;
-import edu.vsu.putin_p_a.models.Person;
 import edu.vsu.putin_p_a.repository.BooksRepository;
+import edu.vsu.putin_p_a.repository.PeopleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,10 +15,12 @@ import java.util.Optional;
 public class BooksService {
 
     private final BooksRepository booksRepository;
+    private final PeopleRepository peopleRepository;
 
     @Autowired
-    public BooksService(BooksRepository booksRepository) {
+    public BooksService(BooksRepository booksRepository, PeopleRepository peopleRepository) {
         this.booksRepository = booksRepository;
+        this.peopleRepository = peopleRepository;
     }
 
     public List<Book> getBooks() {
@@ -52,7 +53,8 @@ public class BooksService {
     }
 
     @Transactional
-    public void setOwner(int id, Person owner) {
-        booksRepository.findById(id).ifPresent(book -> book.setOwner(owner));
+    public void setOwner(int id, int ownerId) {
+        booksRepository.findById(id)
+                .ifPresent(book -> book.setOwner(peopleRepository.getReferenceById(ownerId)));
     }
 }

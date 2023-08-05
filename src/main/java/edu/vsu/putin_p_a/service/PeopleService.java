@@ -3,7 +3,6 @@ package edu.vsu.putin_p_a.service;
 import edu.vsu.putin_p_a.models.Person;
 import edu.vsu.putin_p_a.repository.PeopleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +26,10 @@ public class PeopleService {
 
     public Optional<Person> getPersonById(int id) {
         return peopleRepository.findById(id);
+    }
+
+    public Optional<Person> getPersonByIdWithBooks(int id) {
+        return peopleRepository.getPersonByIdWithBooks(id);
     }
 
     @Transactional
