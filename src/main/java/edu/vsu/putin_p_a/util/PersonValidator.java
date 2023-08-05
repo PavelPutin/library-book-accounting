@@ -1,6 +1,5 @@
 package edu.vsu.putin_p_a.util;
 
-import edu.vsu.putin_p_a.dao.PersonDAO;
 import edu.vsu.putin_p_a.models.Person;
 import edu.vsu.putin_p_a.repository.PeopleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,7 @@ public class PersonValidator implements Validator {
     private final PeopleRepository peopleRepository;
 
     @Autowired
-    public PersonValidator(PersonDAO personDao, PeopleRepository peopleRepository) {
+    public PersonValidator(PeopleRepository peopleRepository) {
         this.peopleRepository = peopleRepository;
     }
 
