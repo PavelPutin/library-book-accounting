@@ -10,6 +10,20 @@
     <p>
         <a href="/people">К списку людей</a>
     </p>
+    <p th:if="${param.page == null || param.books_per_page == null}">
+        <a th:href="@{/books?page={page}&books_per_page={booksPerPage}(page=${currentPage}, booksPerPage=${booksPerPage})}">Включить постраничный просмотр</a>
+    </p>
+    <div th:if="${param.page != null && param.books_per_page != null}">
+        <a href="/books">Отключить постраничный просмотр</a>
+
+        <div>
+            <a th:if="${currentPage > 0}" th:href="@{/books?page={page}&books_per_page={booksPerPage}(page=${currentPage - 1}, booksPerPage=${booksPerPage})}">&lt;</a>
+            <span th:if="${currentPage <= 0}">-</span>
+            <span th:text="${currentPage + 1}"/>/<span th:text="${pagesAmount}"/>
+            <a th:if="${currentPage < pagesAmount - 1}" th:href="@{/books?page={page}&books_per_page={booksPerPage}(page=${currentPage + 1}, booksPerPage=${booksPerPage})}">&gt;</a>
+            <span th:if="${currentPage >= pagesAmount - 1}">-</span>
+        </div>
+    </div>
   <ul>
     <li th:each="book : ${books}">
         <a th:href="@{/books/{id}(id=${book.getId()})}">

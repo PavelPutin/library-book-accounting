@@ -4,6 +4,7 @@ import edu.vsu.putin_p_a.models.Book;
 import edu.vsu.putin_p_a.service.BooksService;
 import edu.vsu.putin_p_a.service.PeopleService;
 import edu.vsu.putin_p_a.util.BookValidator;
+import edu.vsu.putin_p_a.util.PaginationState;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -33,6 +34,12 @@ public class BooksController {
                             @RequestParam(value = "books_per_page", required = false) Integer booksPerPage) {
         List<Book> books = booksService.getBooks(page, booksPerPage);
         model.addAttribute("books", books);
+
+        PaginationState paginationState = booksService.getPaginationState();
+        model.addAttribute("currentPage", paginationState.getCurrent());
+        model.addAttribute("booksPerPage",paginationState.getPageSize());
+        model.addAttribute("pagesAmount", paginationState.getPagesAmount());
+
         return "books/books";
     }
 
