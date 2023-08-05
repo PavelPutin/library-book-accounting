@@ -30,9 +30,10 @@ public class BooksController {
 
     @GetMapping
     public String showBooks(Model model,
-                            @RequestParam(value = "page", required = false) Integer page,
-                            @RequestParam(value = "books_per_page", required = false) Integer booksPerPage) {
-        List<Book> books = booksService.getBooks(page, booksPerPage);
+                            @RequestParam(value = "page", required = false) Optional<Integer> page,
+                            @RequestParam(value = "books_per_page", required = false) Optional<Integer> booksPerPage,
+                            @RequestParam(value = "sort_by_year", required = false) Optional<Boolean> sortByYear) {
+        List<Book> books = booksService.getBooks(page, booksPerPage, sortByYear);
         model.addAttribute("books", books);
 
         PaginationState paginationState = booksService.getPaginationState();

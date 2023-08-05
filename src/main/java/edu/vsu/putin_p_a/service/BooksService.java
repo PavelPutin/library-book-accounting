@@ -5,7 +5,9 @@ import edu.vsu.putin_p_a.repository.BooksRepository;
 import edu.vsu.putin_p_a.repository.PeopleRepository;
 import edu.vsu.putin_p_a.util.PaginationState;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,12 +29,22 @@ public class BooksService {
         this.paginationState = PaginationState.init(booksRepository.count());
     }
 
-    public List<Book> getBooks(Integer page, Integer booksPerPage) {
-        if (page == null || booksPerPage == null) {
-            return booksRepository.findAll();
+    public List<Book> getBooks(Optional<Integer> page, Optional<Integer> booksPerPage, Optional<Boolean> sortByYear) {
+        Sort sort = sortByYear.isPresent() && sortByYear.get() ?
+                Sort.by("publishYear") :
+                Sort.unsorted();
+
+        if (page.isEmpty() || booksPerPage.isEmpty()) {
+            return booksRepository.findAll(sort);
         }
-        paginationState.update(booksRepository.count(), page, booksPerPage);
-        return booksRepository.findAll(PageRequest.of((int) paginationState.getCurrent(), paginationState.getPageSize())).getContent();
+
+        paginationState.update(booksRepository.count(), page.get(), booksPerPage.get());
+        PageRequest pr = PageRequest.of(
+                (int) paginationState.getCurrent(),
+                paginationState.getPageSize(),
+                sort);
+
+        return booksRepository.findAll(pr).getContent();
     }
 
     public Optional<Book> getBookById(int id) {
