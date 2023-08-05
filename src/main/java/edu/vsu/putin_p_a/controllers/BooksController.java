@@ -28,8 +28,10 @@ public class BooksController {
     }
 
     @GetMapping
-    public String showBooks(Model model) {
-        List<Book> books = booksService.getBooks();
+    public String showBooks(Model model,
+                            @RequestParam(value = "page", required = false) Integer page,
+                            @RequestParam(value = "books_per_page", required = false) Integer booksPerPage) {
+        List<Book> books = booksService.getBooks(page, booksPerPage);
         model.addAttribute("books", books);
         return "books/books";
     }

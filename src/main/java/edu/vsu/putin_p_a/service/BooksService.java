@@ -4,6 +4,7 @@ import edu.vsu.putin_p_a.models.Book;
 import edu.vsu.putin_p_a.repository.BooksRepository;
 import edu.vsu.putin_p_a.repository.PeopleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,8 +24,11 @@ public class BooksService {
         this.peopleRepository = peopleRepository;
     }
 
-    public List<Book> getBooks() {
-        return booksRepository.findAll();
+    public List<Book> getBooks(Integer page, Integer booksPerPage) {
+        if (page == null || booksPerPage == null) {
+            return booksRepository.findAll();
+        }
+        return booksRepository.findAll(PageRequest.of(page, booksPerPage)).getContent();
     }
 
     public Optional<Book> getBookById(int id) {
