@@ -68,13 +68,20 @@ public class BooksService {
 
     @Transactional
     public void free(int id) {
-        booksRepository.findById(id).ifPresent(book -> book.setOwner(null));
+        booksRepository.findById(id).ifPresent(book -> {
+            book.setOwner(null);
+            booksRepository.save(book);
+        });
+
     }
 
     @Transactional
     public void setOwner(int id, int ownerId) {
         booksRepository.findById(id)
-                .ifPresent(book -> book.setOwner(peopleRepository.getReferenceById(ownerId)));
+                .ifPresent(book -> {
+                    book.setOwner(peopleRepository.getReferenceById(ownerId));
+                    booksRepository.save(book);
+                });
     }
 
     public PaginationState getPaginationState() {
