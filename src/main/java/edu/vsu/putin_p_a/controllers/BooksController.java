@@ -5,6 +5,7 @@ import edu.vsu.putin_p_a.service.BooksService;
 import edu.vsu.putin_p_a.service.PeopleService;
 import edu.vsu.putin_p_a.util.BookValidator;
 import edu.vsu.putin_p_a.util.PaginationState;
+import edu.vsu.putin_p_a.util.RelativeUrl;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -47,29 +48,46 @@ public class BooksController {
         model.addAttribute("pagesAmount", paginationState.getPagesAmount());
         model.addAttribute("booksPerPage",paginationState.getPageSize());
 
-        Map<String, String> paginationPaths = new HashMap<>();
+        Map<String, Integer> paginationPageIndexes = new HashMap<>();
         final int nextPage = Math.min(paginationState.getCurrent() + 1, paginationState.getPagesAmount() - 1);
-        paginationPaths.put("nextPagePath", String.valueOf(nextPage));
+        paginationPageIndexes.put("nextPagePath", nextPage);
 
         final int previousPage = Math.max(paginationState.getCurrent() - 1, 0);
-        paginationPaths.put("previousPagePath", String.valueOf(previousPage));
+        paginationPageIndexes.put("previousPagePath", previousPage);
 
-        paginationPaths.put("enablePagingPath", String.valueOf(paginationState.getCurrent()));
+        paginationPageIndexes.put("enablePagingPath", paginationState.getCurrent());
 
         final String base = BooksController.class.getAnnotation(RequestMapping.class).value()[0];
-        paginationPaths.keySet().forEach(key -> {
-            String path = paginationPaths.get(key);
-            path = base + "?page=" + path + "&books_per_page=" + paginationState.getPageSize();
+        paginationPageIndexes.keySet().forEach(key -> {
+            int pageIndex = paginationPageIndexes.get(key);
+            RelativeUrl path = new RelativeUrl(base)
+                    .addGetParam("page", pageIndex)
+                    .addGetParam("books_per_page", paginationState.getPageSize());
             if (sortByYear.isPresent() && sortByYear.get()) {
-                path += "&sort_by_year=true";
+                path.addGetParam("sort_by_year", true);
             }
-            paginationPaths.put(key, path);
+            model.addAttribute(key, path.toString());
         });
 
-        model.addAllAttributes(paginationPaths);
+        RelativeUrl disablePagingPath = new RelativeUrl(base);
+        if (sortByYear.isPresent() && sortByYear.get()) {
+            disablePagingPath.addGetParam("sort_by_year", true);
+        }
+        model.addAttribute("disablePagingPath", disablePagingPath.toString());
 
-        String disablePagingPath = base + (sortByYear.isPresent() && sortByYear.get() ? "?sort_by_year=true" : "");
-        model.addAttribute("disablePagingPath", disablePagingPath);
+        Map<String, RelativeUrl> sortingPaths = new HashMap<>();
+        sortingPaths.put("enableSortByYearPath", new RelativeUrl(base).addGetParam("sort_by_year", true));
+        sortingPaths.put("disableSortByYearPath", new RelativeUrl(base));
+
+        sortingPaths.keySet().forEach(key -> {
+            RelativeUrl path = sortingPaths.get(key);
+            if (page.isPresent() && booksPerPage.isPresent()) {
+                path.addGetParam("page", paginationState.getCurrent())
+                        .addGetParam("books_per_page", paginationState.getPageSize());
+            }
+            sortingPaths.put(key, path);
+        });
+        model.addAllAttributes(sortingPaths);
 
         return "books/books";
     }

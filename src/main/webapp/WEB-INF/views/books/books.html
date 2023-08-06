@@ -10,6 +10,15 @@
     <p>
         <a href="/people">К списку людей</a>
     </p>
+
+    <div th:if="${param.sort_by_year == null}">
+        <a th:href="${enableSortByYearPath}">Включить сортировку по году</a>
+    </div>
+
+    <div th:if="${param.sort_by_year != null && param.sort_by_year}">
+        <a th:href="${disableSortByYearPath}">Отключить сортировку по году</a>
+    </div>
+
     <p th:if="${param.page == null || param.books_per_page == null}">
         <a th:href="${enablePagingPath}">Включить постраничный просмотр</a>
     </p>
