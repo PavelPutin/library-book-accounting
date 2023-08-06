@@ -14,4 +14,6 @@ public interface BooksRepository extends JpaRepository<Book, Integer> {
 
     @EntityGraph(attributePaths = "owner", type = EntityGraph.EntityGraphType.LOAD)
     Page<Book> findAll(Pageable pageable);
+
+    List<Book> findBooksByNameStartingWithIgnoreCase(String prefix);
 }

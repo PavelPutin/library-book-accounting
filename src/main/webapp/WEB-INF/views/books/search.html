@@ -7,8 +7,8 @@
 <body>
   <form method="get">
     <div>
-      <label for="search_query">Введите поисковый запрос</label>
-      <input type="text" id="search_query" name="search_query">
+      <label for="searchQuery">Введите поисковый запрос</label>
+      <input type="text" id="searchQuery" name="search_query" th:value="${searchQuery}">
     </div>
     <button type="submit">Искать!</button>
   </form>
@@ -22,7 +22,10 @@
           <span th:text="${book.getName()}"/>, <span th:text="${book.getAuthor()}"/>, <span th:text="${book.getPublishYear()}"/>
         </a>
         <br>
-        <p>Книга сейчас у: <a th:href="@{/people/{id}(id=${book.getOwner().getId()})}" th:text="${book.getOwner().getFullName()}"/></p>
+        <p th:if="${book.getOwner().isEmpty()}">Книга свободна</p>
+        <p th:if="${book.getOwner().isPresent()}">
+          Книга сейчас у: <a th:href="@{/people/{id}(id=${book.getOwner().get().getId()})}" th:text="${book.getOwner().get().getFullName()}"/>
+        </p>
       </li>
     </ul>
   </div>

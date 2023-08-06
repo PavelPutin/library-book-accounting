@@ -87,4 +87,8 @@ public class BooksService {
     public PaginationState getPaginationState() {
         return paginationState;
     }
+
+    public List<Book> findBooksByNameStartingWithIgnoreCase(String searchQuery) {
+        return booksRepository.findBooksByNameStartingWithIgnoreCase(searchQuery);
+    }
 }

@@ -92,6 +92,18 @@ public class BooksController {
         return "books/books";
     }
 
+    @GetMapping("/search")
+    public String search(@RequestParam(value = "search_query", required = false) Optional<String> searchQueryOpt, Model model) {
+        searchQueryOpt.ifPresentOrElse(
+                searchQuery -> {
+                    model.addAttribute("books", booksService.findBooksByNameStartingWithIgnoreCase(searchQuery));
+                    model.addAttribute("searchQuery", searchQuery);
+                },
+                () -> model.addAttribute("searchQuery", "")
+        );
+        return "/books/search";
+    }
+
     @GetMapping("/{id}")
     public String showBookById(@PathVariable int id, Model model) {
         Optional<Book> optBook = booksService.getBookById(id);

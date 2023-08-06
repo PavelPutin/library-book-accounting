@@ -11,6 +11,10 @@
         <a href="/people">К списку людей</a>
     </p>
 
+    <p>
+        <a href="/books/search">На страницу поиска книг</a>
+    </p>
+
     <div th:if="${param.sort_by_year == null}">
         <a th:href="${enableSortByYearPath}">Включить сортировку по году</a>
     </div>
