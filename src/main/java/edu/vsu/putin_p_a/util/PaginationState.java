@@ -1,11 +1,7 @@
 package edu.vsu.putin_p_a.util;
 
-import org.springframework.stereotype.Component;
-
-import java.util.concurrent.atomic.AtomicLong;
-
 public class PaginationState {
-    private long current;
+    private int current;
     private int pageSize;
     private long total;
 
@@ -15,13 +11,13 @@ public class PaginationState {
         return p;
     }
 
-    public long getCurrent() {
+    public int getCurrent() {
         return current;
     }
 
-    public void setCurrent(long current) {
+    public void setCurrent(int current) {
         if (current < 0) { current = 0; }
-        if (current >= getPagesAmount()) { current = getPagesAmount() - 1L; }
+        if (current >= getPagesAmount()) { current = getPagesAmount() - 1; }
         this.current = current;
     }
 
@@ -42,11 +38,11 @@ public class PaginationState {
         this.pageSize = pageSize;
     }
 
-    public long getPagesAmount() {
-        return (long) Math.ceil((double) total / pageSize);
+    public int getPagesAmount() {
+        return (int) Math.ceil((double) total / pageSize);
     }
 
-    public void update(long total, long current, int booksPerPage) {
+    public void update(long total, int current, int booksPerPage) {
         setTotal(total);
         setCurrent(current);
         setPageSize(booksPerPage);
