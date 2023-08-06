@@ -3,8 +3,11 @@ package edu.vsu.putin_p_a.models;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
+import org.antlr.v4.runtime.misc.Interval;
 
+import java.util.Date;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 @Entity
 @Table(name = "book")
@@ -32,6 +35,10 @@ public class Book {
     @ManyToOne
     @JoinColumn(name = "owner_id", referencedColumnName = "id")
     private Person owner;
+
+    @Column(name = "capture_time")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date captureDate;
 
     public Book(int id, String name, String author, Integer publishYear) {
         this.id = id;
@@ -81,5 +88,20 @@ public class Book {
 
     public void setOwner(Person owner) {
         this.owner = owner;
+    }
+
+    public Date getCaptureDate() {
+        return captureDate;
+    }
+
+    public void setCaptureDate(Date captureDate) {
+        this.captureDate = captureDate;
+    }
+
+    public boolean isExpired() {
+        Date now = new Date();
+        long diffInMilliseconds = Math.abs(now.getTime() - captureDate.getTime());
+        final int expiredIntervalInDays = 10;
+        return TimeUnit.DAYS.convert(diffInMilliseconds, TimeUnit.MILLISECONDS) > expiredIntervalInDays;
     }
 }

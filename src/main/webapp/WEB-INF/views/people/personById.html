@@ -3,6 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title th:text="${person.getFullName()}"/>
+    <style>
+        .expired {
+            color: red;
+        }
+    </style>
 </head>
 <body>
     <p>
@@ -19,10 +24,11 @@
         <p><b>Книги:</b></p>
 
         <ul>
-            <li th:each="book : ${books}">
+            <li th:class="${book.isExpired()}? 'expired'" th:each="book : ${books}">
                 <a th:href="@{/books/{id}(id=${book.getId()})}">
                     <span th:text="${book.getName()}"/>, <span th:text="${book.getAuthor()}"/><span th:if="${book.getPublishYear()}">,</span> <span th:text="${book.getPublishYear()}"/>
                 </a>
+                <span th:if="${book.isExpired()}">Книга просрочена!</span>
             </li>
         </ul>
     </div>
